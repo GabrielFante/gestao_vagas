@@ -1,4 +1,4 @@
-package br.com.gabrielfante.API.modules.candidate;
+package br.com.gabrielfante.API.modules.company.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,14 +14,12 @@ import org.hibernate.validator.constraints.Length;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Entity(name = "company")
 @Data
-@Entity(name = "candidate")
-public class CandidateEntity {
-
+public class CompanyEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String name;
 
     @NotBlank()
     @Pattern(regexp = "\\S+", message = "O campo [username] não deve conter espaço")
@@ -32,8 +30,9 @@ public class CandidateEntity {
 
     @Length(min = 10, max = 100)
     private String password;
+    private String website;
+    private String name;
     private String description;
-    private String curriculum;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
