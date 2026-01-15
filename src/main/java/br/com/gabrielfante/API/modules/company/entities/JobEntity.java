@@ -2,14 +2,20 @@ package br.com.gabrielfante.API.modules.company.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Data
 @Entity(name = "job")
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class JobEntity {
 
     @Id
@@ -18,7 +24,7 @@ public class JobEntity {
     private String description;
     private String benefits;
 
-    @NotBlank()
+    @NotBlank(message = "Esse campo é obrigatório")
     private String level;
 
     @ManyToOne()

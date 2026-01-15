@@ -1,11 +1,10 @@
 package br.com.gabrielfante.API.security;
 
+import br.com.gabrielfante.API.security.SecurityFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -19,17 +18,14 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
+        http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
-                        auth.requestMatchers("/candidate/").permitAll()
-                                .requestMatchers("/company/").permitAll()
-                                .requestMatchers("/auth/company").permitAll()
-                                .requestMatchers("/job/").permitAll();
-
-                        auth.anyRequest().authenticated();
-                })
-                .addFilterBefore(securityFilter, BasicAuthenticationFilter.class);
-
+                    auth.requestMatchers("/candidate/").permitAll()
+                            .requestMatchers("/company/").permitAll()
+                            .requestMatchers("/auth/company").permitAll()
+                            .requestMatchers("/job/").permitAll();
+                    auth.anyRequest().authenticated();
+                }).addFilterBefore(securityFilter, BasicAuthenticationFilter.class);
         return http.build();
     }
 

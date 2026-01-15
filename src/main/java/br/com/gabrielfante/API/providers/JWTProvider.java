@@ -1,10 +1,11 @@
 package br.com.gabrielfante.API.providers;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 @Service
 public class JWTProvider {
@@ -18,14 +19,15 @@ public class JWTProvider {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
         try {
-            JWT.require(algorithm)
+            var subject = JWT.require(algorithm)
                     .build()
                     .verify(token)
                     .getSubject();
+
+            return subject;
         } catch (JWTVerificationException ex) {
             ex.printStackTrace();
             return "";
         }
-        return token;
     }
 }
